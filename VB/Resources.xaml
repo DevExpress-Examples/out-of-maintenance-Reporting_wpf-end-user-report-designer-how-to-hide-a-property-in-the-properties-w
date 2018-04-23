@@ -1,0 +1,289 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:designer="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
+    xmlns:designerthemes="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.Themes;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"
+    xmlns:designernative="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.Native;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"
+    xmlns:reportextensions="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.Native.ReportExtensions;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"
+    xmlns:propertygrid="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.PropertyGrid;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"
+    xmlns:reportexplorernative="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.ReportExplorer.Native;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"
+    xmlns:dxpg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxdiag="clr-namespace:DevExpress.Xpf.Diagram;assembly=DevExpress.Xpf.Diagram.v15.1.Core"
+    xmlns:dxdiagnative="clr-namespace:DevExpress.Xpf.Diagram.Native;assembly=DevExpress.Xpf.Diagram.v15.1.Core"
+    xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:drawing="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:printing="clr-namespace:System.Drawing.Printing;assembly=System.Drawing"
+    xmlns:xtraprinting="clr-namespace:DevExpress.XtraPrinting;assembly=DevExpress.Data.v15.1"
+    xmlns:xtraprintingcore="clr-namespace:DevExpress.XtraPrinting;assembly=DevExpress.Printing.v15.1.Core"
+    xmlns:barcode="clr-namespace:DevExpress.XtraPrinting.BarCode;assembly=DevExpress.Printing.v15.1.Core"
+    xmlns:xtrareportsparameters="clr-namespace:DevExpress.XtraReports.Parameters;assembly=DevExpress.Printing.v15.1.Core"
+    xmlns:xtrareportsui="clr-namespace:DevExpress.XtraReports.UI;assembly=DevExpress.XtraReports.v15.1"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:text="clr-namespace:System.Text;assembly=mscorlib"
+    xmlns:utils="clr-namespace:DevExpress.Utils;assembly=DevExpress.Data.v15.1"
+    xmlns:fieldlistnative="clr-namespace:DevExpress.Xpf.Reports.UserDesigner.FieldList.Native;assembly=DevExpress.Xpf.WpfReportDesigner.v15.1"   >
+
+
+  <Style TargetType="propertygrid:ReportDesignerPropertyGridControl">
+    <Setter Property="FieldListNodes" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).FieldListNodes, RelativeSource={RelativeSource Self}}" />
+    <Setter Property="ReportSources" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).ReportSources, RelativeSource={RelativeSource Self}}" />
+    <Setter Property="DataSources" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).DataSources, RelativeSource={RelativeSource Self}}" />
+    <Setter Property="Items" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).XRModels, RelativeSource={RelativeSource Self}}" />
+    <Setter Property="SelectedItem" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).SelectedXRModel, RelativeSource={RelativeSource Self}, Mode=TwoWay}" />
+    <Setter Property="SelectedObjectModel" Value="{Binding Path=(designer:ReportDesigner.DesignerPane).SelectionModel, RelativeSource={RelativeSource Self}}" />
+
+    <Setter Property="MessageBoxServiceTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <ContentControl>
+            <dx:DXMessageBoxService />
+          </ContentControl>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="propertygrid:ReportDesignerPropertyGridControl">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+              <designernative:HierarchyCollectionViewSource x:Key="ItemsSource" ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}">
+                <designernative:HierarchyCollectionViewSource.ItemTemplateSelector>
+                  <reportexplorernative:ReportExplorerItemTemplateSelector>
+                    <reportexplorernative:ReportExplorerItemTemplateSelector.ContainerTemplate>
+                      <DataTemplate>
+                        <designernative:HierarchyCollectionViewSourceNode ItemsSource="{Binding Converter={dxmvvm:ReflectionConverter ConvertMethodOwner=reportexplorernative:ReportExplorerItemBindingHelper, ConvertMethod=GetItems}}" />
+                      </DataTemplate>
+                    </reportexplorernative:ReportExplorerItemTemplateSelector.ContainerTemplate>
+                    <reportexplorernative:ReportExplorerItemTemplateSelector.ItemTemplate>
+                      <DataTemplate>
+                        <designernative:HierarchyCollectionViewSourceNode />
+                      </DataTemplate>
+                    </reportexplorernative:ReportExplorerItemTemplateSelector.ItemTemplate>
+                  </reportexplorernative:ReportExplorerItemTemplateSelector>
+                </designernative:HierarchyCollectionViewSource.ItemTemplateSelector>
+                <designernative:HierarchyCollectionViewSource.SortDescriptions>
+                  <cm:SortDescription PropertyName="Name" Direction="Ascending" />
+                </designernative:HierarchyCollectionViewSource.SortDescriptions>
+              </designernative:HierarchyCollectionViewSource>
+            </Grid.Resources>
+            <dxe:ComboBoxEdit
+                    ItemsSource="{Binding Source={StaticResource ItemsSource}}"
+                    IsTextEditable="False"
+                    ApplyItemTemplateToSelectedItem="True"
+                    Margin="10"
+                    EditValue="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+              <dxe:ComboBoxEdit.ItemTemplate >
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Margin="4,2,4,3">
+                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="  " />
+                    <TextBlock Text="{Binding Converter={dxmvvm:ReflectionConverter ConvertMethodOwner=reportexplorernative:ReportExplorerItemBindingHelper, ConvertMethod=GetTypeString}}" />
+                  </StackPanel>
+                </DataTemplate>
+              </dxe:ComboBoxEdit.ItemTemplate>
+            </dxe:ComboBoxEdit>
+
+            <dxpg:PropertyGridControl ExpandCategoriesWhenSelectedObjectChanged="True" Grid.Row="1" SortMode="Ascending"
+                    designernative:PropertyGridHelper.SelectedObjectAsync="{Binding SelectedObjectModel, RelativeSource={RelativeSource TemplatedParent}}"
+                    UseCollectionEditor="False" BorderThickness="0">
+              <dxpg:PropertyGridControl.Resources>
+                <designernative:HierarchyCollectionViewSource x:Key="FieldListNodesSource" ItemsSource="{Binding FieldListNodes, RelativeSource={RelativeSource TemplatedParent}}">
+                  <designernative:HierarchyCollectionViewSource.ItemTemplate>
+                    <DataTemplate>
+                      <designernative:HierarchyCollectionViewSourceNode ItemsSource="{Binding Children}" />
+                    </DataTemplate>
+                  </designernative:HierarchyCollectionViewSource.ItemTemplate>
+                </designernative:HierarchyCollectionViewSource>
+              </dxpg:PropertyGridControl.Resources>
+              <dxpg:PropertyGridControl.PropertyDefinitions>
+                  <dxpg:PropertyDefinition Path="PrinterName" IsReadOnly="False" Visibility="Collapsed">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding TemplatedParent.InstalledPrinters, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxpg:PropertyGridControl}}" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=reportextensions:BindingSettings}" IsReadOnly="False">
+                  <dxpg:PropertyDefinition.ContentTemplate>
+                    <DataTemplate>
+                      <dxpg:CellEditorPresenter Path="Data" />
+                    </DataTemplate>
+                  </dxpg:PropertyDefinition.ContentTemplate>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Type="reportextensions:BindingData" IsReadOnly="False">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxg:LookUpEditSettings AutoPopulateColumns="False" ValueMember="BindingData" DisplayMember="FullPath" ItemsSource="{Binding Source={StaticResource FieldListNodesSource}}" IsTextEditable="False" NullText="(none)">
+                      <dxg:LookUpEditSettings.PopupContentTemplate>
+                        <ControlTemplate>
+                          <dxg:GridControl x:Name="PART_GridControl" ShowBorder="False" ItemsSource="{Binding TemplatedParent.FieldListNodes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxpg:PropertyGridControl}}">
+                            <dxg:GridControl.View>
+                              <dxg:TreeListView AllowEditing="False" TreeDerivationMode="HierarchicalDataTemplate" AutoWidth="True"
+                                          VerticalScrollbarVisibility="Auto" ExpandCollapseNodesOnNavigation="True"
+                                          ShowHorizontalLines="False" ShowVerticalLines="False" ShowIndicator="False" ShowColumnHeaders="False">
+                                <dxg:TreeListView.DataRowTemplate>
+                                  <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
+                                </dxg:TreeListView.DataRowTemplate>
+                              </dxg:TreeListView>
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.Columns>
+                              <dxg:GridColumn FieldName="DisplayName" CellTemplate="{DynamicResource {designerthemes:ReportDesignerThemeKey ResourceKey=FieldListNodeTemplate}}">
+                                <dxg:GridColumn.CellStyle>
+                                  <Style>
+                                    <Setter Property="dxmvvm:Interaction.BehaviorsTemplate">
+                                      <Setter.Value>
+                                        <DataTemplate>
+                                          <ContentControl>
+                                            <fieldlistnative:ExpandRootNodeBehavior TreeListNode="{Binding RowData}" />
+                                          </ContentControl>
+                                        </DataTemplate>
+                                      </Setter.Value>
+                                    </Setter>
+                                  </Style>
+                                </dxg:GridColumn.CellStyle>
+                              </dxg:GridColumn>
+                            </dxg:GridControl.Columns>
+                          </dxg:GridControl>
+                        </ControlTemplate>
+                      </dxg:LookUpEditSettings.PopupContentTemplate>
+                    </dxg:LookUpEditSettings>
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+
+                <dxpg:PropertyDefinition Type="ImageSource" IsReadOnly="False" />
+                <dxpg:PropertyDefinition Type="Color" IsReadOnly="False" />
+                <!---->
+
+                <dxpg:PropertyDefinition Path="ReportSource" IsReadOnly="False">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:ComboBoxEditSettings IsTextEditable="False" NullText="(none)"
+                        ItemsSource="{Binding TemplatedParent.ReportSources, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=dxpg:PropertyGridControl}}" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+
+                <dxpg:PropertyDefinition Type="xtraprinting:PaddingInfo" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="xtrareportsui:FormattingRuleSheet" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="xtrareportsui:FormattingRuleCollection" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="xtrareportsui:CalculatedFieldCollection" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="sys:Object" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="printing:Margins" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="utils:PointFloat" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="drawing:SizeF" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="drawing:Size" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=sys:Object}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:PrinterSettingsUsing}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:ExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:PdfExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:XlsExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:XlsxExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:TextExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:CsvExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:ImageExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:HtmlExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:MhtExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:RtfExportOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:NativeFormatOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:EmailOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:PrintPreviewOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtraprintingcore:PdfDocumentOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=barcode:BarCodeGeneratorBase}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRWatermark}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:DesignerOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XtraReportScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:ReportPrintOptions}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRLabelScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRSummary}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRBindingCollection}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRControl+XRControlStyles}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:StylePriority}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRControlStyle}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRControlScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:MultiColumn}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:BandScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XtraReport}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:SubreportBaseScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRChartScripts}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRTableOfContentsTitle}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="{dxdiag:SelectionPropertyModel PropertyType=xtrareportsui:XRTableOfContentsLevel}" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="text:Encoding" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Type="xtraprintingcore:PdfPasswordSecurityOptions" UseTypeConverterToStringConversion="True" />
+
+                <dxpg:PropertyDefinition Type="drawing:Font" UseTypeConverterToStringConversion="True" PostOnEditValueChanged="True">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:ButtonEditSettings AllowDefaultButton="False">
+                      <dxe:ButtonEditSettings.Buttons>
+                        <dxe:ButtonInfo GlyphKind="Regular">
+                          <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EventToCommand EventName="Click" Command="{Binding Commands.OpenFontEditorCommand, RelativeSource={RelativeSource TemplatedParent}}" PassEventArgsToCommand="True" />
+                          </dxmvvm:Interaction.Behaviors>
+                        </dxe:ButtonInfo>
+                      </dxe:ButtonEditSettings.Buttons>
+                    </dxe:ButtonEditSettings>
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+
+                <dxpg:PropertyDefinition Path="BorderWidth" UseTypeConverterToStringConversion="True">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:SpinEditSettings MinValue="0" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="Image" PostOnEditValueChanged="True" IsReadOnly="False">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:PopupImageEditSettings ShowMenu="True" ShowMenuMode="Always" ShowLoadDialogOnClickMode="Empty" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="Watermark.Image" PostOnEditValueChanged="True" IsReadOnly="False">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:PopupImageEditSettings ShowMenu="True" ShowMenuMode="Always" ShowLoadDialogOnClickMode="Empty" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:CollectionDefinition Type="xtrareportsparameters:ParameterCollection" UseTypeConverterToStringConversion="True" UseCollectionEditor="True" />
+                <dxpg:PropertyDefinition Path="Watermark.ImageTransparency">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:SpinEditSettings MinValue="0" MaxValue="100" Mask="P0" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="Watermark.PageRange">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:TextEditSettings MaskType="RegEx" Mask="{x:Static propertygrid:ReportDesignerPropertyGridControl.PageRangeMask}" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="Watermark.TextTransparency">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:SpinEditSettings MinValue="0" MaxValue="100" Mask="P0" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="ExportOptions.Html.CharacterSet" UseTypeConverterToStringConversion="True" />
+                <dxpg:PropertyDefinition Path="ExportOptions.*.PageBorderWidth">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:SpinEditSettings MinValue="0" Mask="D0" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="ExportOptions.*.PageRange">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:TextEditSettings MaskType="RegEx" Mask="{x:Static propertygrid:ReportDesignerPropertyGridControl.PageRangeMask}" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="ExportOptions.Pdf.NeverEmbeddedFonts">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:TextEditSettings MaskType="RegEx" Mask="{x:Static propertygrid:ReportDesignerPropertyGridControl.ListMask}" MaskUseAsDisplayFormat="True" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+                <dxpg:PropertyDefinition Path="DataSource">
+                  <dxpg:PropertyDefinition.EditSettings>
+                    <dxe:ComboBoxEditSettings ItemsSource="{Binding DataSources, RelativeSource={RelativeSource TemplatedParent}}" ValueMember="DataSource" DisplayMember="DisplayName" IsTextEditable="False" />
+                  </dxpg:PropertyDefinition.EditSettings>
+                </dxpg:PropertyDefinition>
+              </dxpg:PropertyGridControl.PropertyDefinitions>
+            </dxpg:PropertyGridControl>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>
