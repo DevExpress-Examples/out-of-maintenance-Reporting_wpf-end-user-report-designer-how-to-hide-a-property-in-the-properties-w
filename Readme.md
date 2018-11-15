@@ -1,3 +1,10 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [DXWindow1.xaml](./CS/DXWindow1.xaml) (VB: [DXWindow1.xaml.vb](./VB/DXWindow1.xaml.vb))
+* [DXWindow1.xaml.cs](./CS/DXWindow1.xaml.cs) (VB: [DXWindow1.xaml.vb](./VB/DXWindow1.xaml.vb))
+* [Resources.xaml](./CS/Resources.xaml) (VB: [Resources.xaml](./VB/Resources.xaml))
+<!-- default file list end -->
 # WPF End-User Report Designer - How to hide a property in the Properties window
 
 
