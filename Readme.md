@@ -3,7 +3,7 @@
 
 * [Dictionary1.xaml](./CS/Dictionary1.xaml)
 * [DXWindow1.xaml](./CS/DXWindow1.xaml) (VB: [DXWindow1.xaml](./VB/DXWindow1.xaml))
-* [DXWindow1.xaml.cs](./CS/DXWindow1.xaml.cs) (VB: [DXWindow1.xaml](./VB/DXWindow1.xaml))
+* [DXWindow1.xaml.cs](./CS/DXWindow1.xaml.cs) (VB: [DXWindow1.xaml.vb](./VB/DXWindow1.xaml.vb))
 <!-- default file list end -->
 # WPF End-User Report Designer - How to hide a property in the Properties window
 
